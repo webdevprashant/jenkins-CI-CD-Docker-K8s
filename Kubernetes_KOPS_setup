@@ -7,16 +7,16 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s htt
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/bin/kubectl
 
-aws s3 mb s3://linuxworld.in.k8s --region ap-south-1
+aws s3 mb s3://mybucket.in.k8s --region ap-south-1
 
 Create private hosted zone in AWS Route53
 
 export KOPS_CLUSTER_NAME=jenkinstraining.com
-export KOPS_STATE_STORE=s3://linuxworld.in.k8s
+export KOPS_STATE_STORE=s3://mybucket.in.k8s
 
 # vim /root/.bashrc 
 export KOPS_CLUSTER_NAME=jenkinstraining.com
-export KOPS_STATE_STORE=s3://linuxworld.in.k8s
+export KOPS_STATE_STORE=s3://mybucket.in.k8s
 
 
 
@@ -24,10 +24,9 @@ ssh-keygen
 
 kops create cluster \
 --state=${KOPS_STATE_STORE} \
---node-count=2 \
---master-size=t3.medium \
---node-size=t3.medium \
---zones=ap-south-1a,ap-south-1b \
+--master-size=t2.micro \
+--node-size=t2.micro \
+--zones=ap-south-1b \
 --name=${KOPS_CLUSTER_NAME} \
 --dns private \
 --master-count 1
